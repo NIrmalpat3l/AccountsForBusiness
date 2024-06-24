@@ -2,16 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://nspp3305:NSPP3305@accountdb.cjvhgg1.mongodb.net/?retryWrites=true&w=majority&appName=AccountDB', {
+mongoose.connect('mongodb+srv://nspp3305:NSPP3305@accountdb.cjvhgg1.mongodb.net/?retryWrites=true&w=majority&appName=AccountDB/Acc', {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true
+    useUnifiedTopology: true
 })
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error('MongoDB connection error:', err));
@@ -23,6 +22,7 @@ const Material = require('./models/Material');
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static('public')); // Serve static files from the "public" directory
 
 // Routes
 app.get('/api/materials/:materialId', async (req, res) => {
@@ -43,6 +43,15 @@ app.get('/api/materials/project/:projectId', async (req, res) => {
         console.error('Error fetching project materials:', error);
         res.status(500).json({ error: 'Server error' });
     }
+});
+
+// Serve HTML files
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/options.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'options.html'));
 });
 
 // Start server
