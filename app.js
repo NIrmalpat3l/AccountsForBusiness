@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public')); // Serve static files from the "public" directory
 
 // Routes
-app.post('/add_project', async (req, res) => {
+app.post('/add_project.html', async (req, res) => {
     const { name, start_date, end_date } = req.body;
     const newProject = new Project({ name, start_date, end_date });
     try {
