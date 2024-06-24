@@ -19,25 +19,22 @@
         }
     </style>
     <script>
-        async function loadProjects() {
-            try {
-                const response = await fetch('/api/get_projects');
-                const projects = await response.json();
-                const projectTable = document.getElementById("project_table");
-                
-                projects.forEach(project => {
-                    const row = projectTable.insertRow();
-                    const cellId = row.insertCell(0);
-                    const cellName = row.insertCell(1);
-                    cellId.textContent = project._id;
-                    cellName.textContent = project.name;
+        function loadProjects() {
+            fetch('/api/projects')
+                .then(response => response.json())
+                .then(projects => {
+                    const projectTable = document.getElementById("project_table");
+                    projects.forEach(project => {
+                        const row = projectTable.insertRow();
+                        const cellId = row.insertCell(0);
+                        const cellName = row.insertCell(1);
+                        cellId.textContent = project._id;
+                        cellName.textContent = project.name;
+                    });
                 });
-            } catch (error) {
-                console.error('Error loading projects:', error);
-            }
         }
 
-        async function addMaterial(event) {
+        function addMaterial(event) {
             event.preventDefault();
 
             const project_id = document.getElementById("project_id").value;
@@ -45,28 +42,16 @@
             const quantity = document.getElementById("quantity").value;
             const cost_per_unit = document.getElementById("cost_per_unit").value;
 
-            try {
-                const response = await fetch('/api/add_material', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        project_id,
-                        material_name,
-                        quantity,
-                        cost_per_unit
-                    })
-                });
-
-                if (response.ok) {
-                    alert('Material added successfully');
-                } else {
-                    throw new Error('Failed to add material');
-                }
-            } catch (error) {
-                console.error('Error adding material:', error);
-            }
+            fetch('/add_material', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ project_id, material_name, quantity, cost_per_unit })
+            })
+            .then(response => response.text())
+            .then(data => alert(data))
+            .catch(error => console.error('Error:', error));
         }
 
         document.addEventListener("DOMContentLoaded", loadProjects);
@@ -85,7 +70,7 @@
 
     <form onsubmit="addMaterial(event)">
         <label for="project_id">Enter Project ID:</label>
-        <input type="text" id="project_id" name="project_id" required><br><br>
+        <input type="number" id="project_id" name="project_id" required><br><br>
         
         <label for="material_name">Material Name:</label>
         <input type="text" id="material_name" name="material_name" required><br><br>
