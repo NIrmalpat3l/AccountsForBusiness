@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Project = require('../models/project');
+const Project = require('../models/project.js');
 
 // POST route to add project
 router.post('/add_project', async (req, res) => {

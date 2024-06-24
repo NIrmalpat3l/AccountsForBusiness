@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Material = require('../models/material');
+const Material = require('../models/material.js');
 
 // GET route to fetch materials by project_id
 router.get('/get_materials/:project_id', async (req, res) => {

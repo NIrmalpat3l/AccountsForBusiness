@@ -8,7 +8,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://nspp3305:NSPP3305@accountdb.cjvhgg1.mongodb.net/?retryWrites=true&w=majority&appName=AccountDB/Acc', {
+mongoose.connect('mongodb+srv://nspp3305:NSPP3305@accountdb.cjvhgg1.mongodb.net/Acc', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -22,39 +22,55 @@ const Material = require('./models/Material');
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public')); // Serve static files from the "public" directory
 
 // Routes
-app.get('/api/materials/:materialId', async (req, res) => {
+app.post('/add_project', async (req, res) => {
+    const { name, start_date, end_date } = req.body;
+    const newProject = new Project({ name, start_date, end_date });
     try {
-        const material = await Material.findById(req.params.materialId);
-        res.json(material);
+        await newProject.save();
+        res.status(200).send('New project added successfully');
     } catch (error) {
-        console.error('Error fetching material:', error);
-        res.status(500).json({ error: 'Server error' });
+        console.error('Error adding project:', error);
+        res.status(500).send('Server error');
     }
 });
 
-app.get('/api/materials/project/:projectId', async (req, res) => {
+app.post('/add_material', async (req, res) => {
+    const { project_id, material_name, quantity, cost_per_unit } = req.body;
+    const newMaterial = new Material({ project_id, material_name, quantity, cost_per_unit });
     try {
-        const materials = await Material.find({ project_id: req.params.projectId });
+        await newMaterial.save();
+        res.status(200).send('Material added successfully');
+    } catch (error) {
+        console.error('Error adding material:', error);
+        res.status(500).send('Server error');
+    }
+});
+
+app.get('/api/projects', async (req, res) => {
+    try {
+        const projects = await Project.find();
+        res.json(projects);
+    } catch (error) {
+        console.error('Error fetching projects:', error);
+        res.status(500).send('Server error');
+    }
+});
+
+app.get('/api/materials/:projectId', async (req, res) => {
+    const { projectId } = req.params;
+    try {
+        const materials = await Material.find({ project_id: projectId });
         res.json(materials);
     } catch (error) {
-        console.error('Error fetching project materials:', error);
-        res.status(500).json({ error: 'Server error' });
+        console.error('Error fetching materials:', error);
+        res.status(500).send('Server error');
     }
 });
 
-// Serve HTML files
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.get('/options.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'options.html'));
-});
-
-// Start server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });

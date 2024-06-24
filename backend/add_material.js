@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Material = require('../models/material');
+const Material = require('../models/material.js');
 
 // POST route to add material
 router.post('/add_material', async (req, res) => {

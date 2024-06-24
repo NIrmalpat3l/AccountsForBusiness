@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Project = require('../models/project');
+const Project = require('../models/project.js');
 
 // GET route to fetch all projects
 router.get('/get_projects', async (req, res) => {
