@@ -9,14 +9,14 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Connect to MongoDB
-const uri = "mongodb+srv://nspp3305:NSPP3305@accountdb.cjvhgg1.mongodb.net";
+const uri = "mongodb+srv://nspp3305:<password>@accountdb.cjvhgg1.mongodb.net/?retryWrites=true&w=majority&appName=AccountDB";
 mongoose.connect(uri)
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error('MongoDB connection error:', err));
 
 // Middleware
 app.use(cors({
-    origin: "https://accounts-for-business.vercel.app/",
+    origin: "https://accounts-for-business.vercel.app",
     Credential: true,
 }));
 app.use(bodyParser.json());
