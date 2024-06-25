@@ -16,11 +16,14 @@ mongoose.connect('mongodb+srv://nspp3305:NSPP3305@accountdb.cjvhgg1.mongodb.net/
 .catch(err => console.error('MongoDB connection error:', err));
 
 // Mongoose models
-const Project = require('./models/Project');
-const Material = require('./models/Material');
+const Project = require('./models/project.js');
+const Material = require('./models/material.js');
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: "https://accounts-for-business.vercel.app/",
+    Credential: true,
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public')); // Serve static files from the "public" directory
