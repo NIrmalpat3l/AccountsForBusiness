@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import path from 'path';
-import Project from "./models/project.js"
-import Material from './models/material.js';
+import Project from "../models/project.js"
+import Material from '../models/material.js';
 const app = express();
 const port = process.env.PORT || 3000;
 
