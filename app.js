@@ -3,13 +3,13 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import path from 'path';
-import Project from "../models/project.js"
-import Material from '../models/material.js';
+import Project from "./models/project.js"
+import Material from './models/material.js';
 const app = express();
 const port = process.env.PORT || 3000;
 
 // Connect to MongoDB
-const uri = "mongodb+srv://nspp3305:<password>@accountdb.cjvhgg1.mongodb.net/?retryWrites=true&w=majority&appName=AccountDB";
+const uri = "mongodb+srv://nspp3305:NSPP3305@accountdb.cjvhgg1.mongodb.net/?retryWrites=true&w=majority&appName=AccountDB";
 mongoose.connect(uri)
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error('MongoDB connection error:', err));
