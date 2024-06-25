@@ -1,20 +1,18 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const path = require('path');
-
+import express from 'express';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import path from 'path';
+import Project from "./models/project.js"
+import Material from './models/material.js';
 const app = express();
 const port = process.env.PORT || 3000;
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://nspp3305:NSPP3305@accountdb.cjvhgg1.mongodb.net/Acc')
+const uri = "mongodb+srv://nspp3305:NSPP3305@accountdb.cjvhgg1.mongodb.net";
+mongoose.connect(uri)
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error('MongoDB connection error:', err));
-
-// Mongoose models
-const Project = require('./models/project.js');
-const Material = require('./models/material.js');
 
 // Middleware
 app.use(cors({

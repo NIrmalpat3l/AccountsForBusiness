@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const MaterialSchema = new Schema({
@@ -8,4 +8,6 @@ const MaterialSchema = new Schema({
     cost_per_unit: { type: Number, required: true }
 });
 
-module.exports = mongoose.model('Material', MaterialSchema);
+const Material = mongoose.model('Material', MaterialSchema);
+
+export default Material;
